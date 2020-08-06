@@ -1,8 +1,19 @@
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
-    https://api.github.com/users/<your name>
+    
 */
+  import axios from 'axios'
+  
+  axios.get('https://api.github.com/users/JoelVega97')
+    .then(function(reponse){
+     const githubProfile = reponse.data 
+     const myCard = cardMaker(githubProfile)
+     cardContainer.appendChild(myCard)
+    })
+    .catch(function(error){
+      console.log('UH OH')
+    })
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +60,55 @@ const followersArray = [];
       </div>
     </div>
 */
+
+const cardContainer = document.querySelector('.cards')
+
+function cardMaker(gitHubObj){
+
+  const card = document.createElement('div')
+  const githubImg = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const name = document.createElement('h3')
+  const username = document.createElement('p')
+  const location = document.createElement('p')
+  const profile = document.createElement('p')
+  const profileAnchor = document.createElement('a')
+  const followersNum = document.createElement('p')
+  const followingNum = document.createElement('p')
+  const bio = document.createElement('p')
+
+  card.appendChild(githubImg)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(name)
+  cardInfo.appendChild(username)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  profile.appendChild(profileAnchor)
+  cardInfo.appendChild(followersNum)
+  cardInfo.appendChild(followingNum)
+  cardInfo.appendChild(bio)
+
+  card.className = 'card'
+  cardInfo.className = 'card-info'
+  name.className = 'name'
+  username.className = 'username'
+  profileAnchor.href = 'https://github.com/JoelVega97'
+
+  githubImg.src = `${gitHubObj.avatar_url}`
+  name.textContent = `${gitHubObj.name}`
+  username.textContent = `${gitHubObj.login}`
+  location.textContent = `Location: ${gitHubObj.location}`
+  profile.textContent = 'Profile:'
+  profileAnchor.textContent = `${gitHubObj.html_url}`
+  followersNum.textContent = `Followers: ${gitHubObj.followers}`
+  followingNum.textContent = `Following: ${gitHubObj.following}`
+  bio.textContent = `Bio: ${gitHubObj.bio}`
+
+  return card
+}
+
+
+
 
 /*
   List of LS Instructors Github username's:
