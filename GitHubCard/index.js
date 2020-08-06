@@ -39,7 +39,18 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['mphelps1978', 'saljahmi', 'fibonacci85', 'Cory-Thomas', 'Nelson-Singleton'];
+
+followersArray.forEach(element => {
+  axios.get(`https://api.github.com/users/${element}`)
+    .then(function (res){
+      const maker = cardMaker(res.data)
+      cardContainer.appendChild(maker)
+    })
+
+});
+
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -64,7 +75,7 @@ const followersArray = [];
 const cardContainer = document.querySelector('.cards')
 
 function cardMaker(gitHubObj){
-
+//Element Creation
   const card = document.createElement('div')
   const githubImg = document.createElement('img')
   const cardInfo = document.createElement('div')
@@ -76,7 +87,7 @@ function cardMaker(gitHubObj){
   const followersNum = document.createElement('p')
   const followingNum = document.createElement('p')
   const bio = document.createElement('p')
-
+//Putting things where they go
   card.appendChild(githubImg)
   card.appendChild(cardInfo)
   cardInfo.appendChild(name)
@@ -87,7 +98,7 @@ function cardMaker(gitHubObj){
   cardInfo.appendChild(followersNum)
   cardInfo.appendChild(followingNum)
   cardInfo.appendChild(bio)
-
+//Classing and Text
   card.className = 'card'
   cardInfo.className = 'card-info'
   name.className = 'name'
@@ -98,12 +109,11 @@ function cardMaker(gitHubObj){
   name.textContent = `${gitHubObj.name}`
   username.textContent = `${gitHubObj.login}`
   location.textContent = `Location: ${gitHubObj.location}`
-  profile.textContent = 'Profile:'
-  profileAnchor.textContent = `${gitHubObj.html_url}`
+  profile.innerHTML = `Profile: <a href = ${gitHubObj.html_url}>${gitHubObj.html_url}</a>`
   followersNum.textContent = `Followers: ${gitHubObj.followers}`
   followingNum.textContent = `Following: ${gitHubObj.following}`
   bio.textContent = `Bio: ${gitHubObj.bio}`
-
+//returning something
   return card
 }
 
